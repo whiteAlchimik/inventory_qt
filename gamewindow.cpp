@@ -12,3 +12,14 @@ GameWindow::~GameWindow()
 {
     delete ui;
 }
+
+void GameWindow::closeEvent(QCloseEvent *event)
+{
+    emit signalCloseGameWindow();
+    QWidget::closeEvent(event);
+}
+
+void GameWindow::on_mainMenu_clicked()
+{
+    emit signalShowMainWindow();
+}

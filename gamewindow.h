@@ -15,6 +15,16 @@ public:
     explicit GameWindow(QWidget *parent = 0);
     ~GameWindow();
 
+protected:
+    void closeEvent(QCloseEvent *event);
+
+signals:
+    void signalShowMainWindow();
+    void signalCloseGameWindow();
+
+private slots:
+    void on_mainMenu_clicked();
+
 private:
     Ui::GameWindow *ui;
 };
