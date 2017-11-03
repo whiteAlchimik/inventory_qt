@@ -14,6 +14,8 @@ public:
 
     ~Subject();
 
+    QString getPathImage() const;
+
 private:
     SUBJECT_TYPE _subjectType;
     QString _pathImage;

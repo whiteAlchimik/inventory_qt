@@ -2,6 +2,8 @@
 #define GAMEWINDOW_H
 
 #include <QWidget>
+#include "subjectwidget.h"
+#include "tablewidget.h"
 
 namespace Ui {
 class GameWindow;
@@ -23,6 +25,11 @@ private slots:
 
 private:
     Ui::GameWindow *ui;
+
+    Subject *_ptrSubjectApple;
+    SubjectWidget *_ptrSubjectWidget;
+
+    TableWidget *_ptrTableWidget;
 };
 
 #endif // GAMEWINDOW_H

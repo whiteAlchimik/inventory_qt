@@ -28,13 +28,15 @@ SOURCES += \
         mainwindow.cpp \
     gamewindow.cpp \
     subject.cpp \
-    subjectwidget.cpp
+    subjectwidget.cpp \
+    tablewidget.cpp
 
 HEADERS += \
         mainwindow.h \
     gamewindow.h \
     subject.h \
-    subjectwidget.h
+    subjectwidget.h \
+    tablewidget.h
 
 FORMS += \
         mainwindow.ui \

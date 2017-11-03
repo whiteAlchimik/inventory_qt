@@ -1,17 +1,27 @@
 #include "subjectwidget.h"
 
-SubjectWidget::SubjectWidget(QWidget *parent) : QWidget(parent)
+SubjectWidget::SubjectWidget(QWidget *parent) :
+    QWidget(parent),
+    _ptrSubject(nullptr)
 {
-    this->setFixedSize(150, 150);
+    this->setFixedSize(WIDGET_WIDTH, WIDGET_HEIGHT);
 }
 
 void SubjectWidget::paintEvent(QPaintEvent *event)
 {
-    QImage image(":/resources/images/image_apple.jpg");
-
     QPainter painter(this);
 
-    painter.drawImage(0, 0, image);
+    painter.drawImage(0, 0, _image.scaled(this->size()));
 
     QWidget::paintEvent(event);
 }
+
+void SubjectWidget::setSubject(Subject *ptrSubject)
+{
+    _ptrSubject = ptrSubject;
+    _image.load(_ptrSubject->getPathImage());
+    this->update();
+}
+
+SubjectWidget::~SubjectWidget()
+{}

@@ -8,3 +8,8 @@ Subject::Subject(const SUBJECT_TYPE subjectType,
 
 Subject::~Subject()
 {}
+
+QString Subject::getPathImage() const
+{
+    return _pathImage;
+}
