@@ -21,8 +21,6 @@ private slots:
 
     void on_newGame_clicked();
 
-    void slotCloseGameWindow();
-
 private:
     Ui::MainWindow *ui;
     GameWindow *_ptrGameWindow;

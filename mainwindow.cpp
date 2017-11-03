@@ -30,12 +30,6 @@ void MainWindow::on_newGame_clicked()
     this->hide();
 }
 
-void MainWindow::slotCloseGameWindow()
-{
-    destroyGameWindow();
-    this->show();
-}
-
 void MainWindow::createGameWindow()
 {
     destroyGameWindow();
@@ -46,9 +40,9 @@ void MainWindow::createGameWindow()
             this,
             SLOT(show()));
     connect(_ptrGameWindow,
-            SIGNAL(signalCloseGameWindow()),
+            SIGNAL(destroyed(QObject*)),
             this,
-            SLOT(slotCloseGameWindow()));
+            SLOT(close()));
     _ptrGameWindow->show();
 }
 
@@ -57,13 +51,13 @@ void MainWindow::destroyGameWindow()
     if(_ptrGameWindow != nullptr)
     {
         disconnect(_ptrGameWindow,
-                   SIGNAL(signalShowMainWindow()),
-                   this,
-                   SLOT(show()));
+                SIGNAL(signalShowMainWindow()),
+                this,
+                SLOT(show()));
         disconnect(_ptrGameWindow,
-                   SIGNAL(signalCloseGameWindow()),
-                   this,
-                   SLOT(slotCloseGameWindow()));
+                SIGNAL(destroyed(QObject*)),
+                this,
+                SLOT(close()));
         delete _ptrGameWindow;
         _ptrGameWindow = nullptr;
     }
