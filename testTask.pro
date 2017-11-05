@@ -29,14 +29,18 @@ SOURCES += \
     gamewindow.cpp \
     subject.cpp \
     subjectwidget.cpp \
-    tablewidget.cpp
+    tablewidget.cpp \
+    inventorycell.cpp \
+    inventory.cpp
 
 HEADERS += \
         mainwindow.h \
     gamewindow.h \
     subject.h \
     subjectwidget.h \
-    tablewidget.h
+    tablewidget.h \
+    inventorycell.h \
+    inventory.h
 
 FORMS += \
         mainwindow.ui \

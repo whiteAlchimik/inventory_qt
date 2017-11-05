@@ -25,3 +25,29 @@ void SubjectWidget::setSubject(Subject *ptrSubject)
 
 SubjectWidget::~SubjectWidget()
 {}
+
+void SubjectWidget::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton)
+        _dragStartPosition = event->pos();
+}
+
+void SubjectWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    if (!(event->buttons() & Qt::LeftButton))
+        return;
+    if ((event->pos() - _dragStartPosition).manhattanLength()
+            < QApplication::startDragDistance())
+        return;
+
+    QDrag *drag = new QDrag(this);
+    QMimeData *mimeData = new QMimeData;
+
+    QByteArray byteArray;
+    QDataStream dataStream(&byteArray, QIODevice::WriteOnly);
+    dataStream << *(_ptrSubject);
+
+    mimeData->setData(_ptrSubject->mimeType, byteArray);
+    drag->setMimeData(mimeData);
+    Qt::DropAction dropAction = drag->exec(Qt::CopyAction);
+}

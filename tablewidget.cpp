@@ -3,6 +3,8 @@
 TableWidget::TableWidget(QWidget *parent) :
     QTableWidget(parent)
 {
+    this->setAcceptDrops(true);
+
     this->setFixedSize(WIDGET_WIDTH, WIDGET_HEIGHT);
 
     this->setShowGrid(true);
@@ -10,6 +12,8 @@ TableWidget::TableWidget(QWidget *parent) :
     this->setColumnCount(TABLE_COLUMNS);
 
     this->setRowCount(TABLE_ROWS);
+
+    this->setSelectionMode(QAbstractItemView::SingleSelection);
 
     this->horizontalHeader()->hide();
     this->verticalHeader()->hide();
@@ -20,3 +24,24 @@ TableWidget::TableWidget(QWidget *parent) :
 
 TableWidget::~TableWidget()
 {}
+
+void TableWidget::dragEnterEvent(QDragEnterEvent *event)
+{
+    if(event->mimeData()->hasFormat(Subject::mimeType))
+    {
+        event->acceptProposedAction();
+    }
+}
+
+void TableWidget::dragMoveEvent(QDragMoveEvent *event)
+{
+    event->accept();
+}
+
+void TableWidget::dropEvent(QDropEvent *event)
+{
+    QByteArray in;
+    in = event->mimeData()->data(Subject::mimeType);
+
+    QDataStream dataStream(&in, QIODevice::ReadOnly);
+}
