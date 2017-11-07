@@ -30,8 +30,10 @@ TableWidget::~TableWidget()
 void TableWidget::slotUpdateValueInCell(const int newValue, const int row, const int column)
 {
     if((row >= this->rowCount() || row < 0) ||
-            (column >= this->colorCount() || column < 0))
+            (column >= this->columnCount() || column < 0))
+    {
         return;
+    }
 
     if(this->item(row, column) != nullptr)
     {
@@ -42,23 +44,25 @@ void TableWidget::slotUpdateValueInCell(const int newValue, const int row, const
 void TableWidget::addItem(const int row, const int column, const QString pathImage)
 {
     if((row >= this->rowCount() || row < 0) ||
-            (column >= this->colorCount() || column < 0))
+            (column >= this->columnCount() || column < 0) ||
+            (this->item(row, column) != nullptr))
+    {
         return;
-
-    /*if(this->item(row, column) != nullptr)
-        return;
+    }
 
     QTableWidgetItem *item = new QTableWidgetItem;
     item->setIcon(QIcon(QPixmap(pathImage)));
     item->setTextAlignment(Qt::AlignBottom | Qt::AlignRight);
-    this->setItem(row, column, item);*/
+    this->setItem(row, column, item);
 }
 
 void TableWidget::removeItem(const int row, const int column)
 {
     if((row >= this->rowCount() || row < 0) ||
-            (column >= this->colorCount() || column < 0))
+            (column >= this->columnCount() || column < 0))
+    {
         return;
+    }
 
     QTableWidgetItem *item = this->item(row, column);
     this->takeItem(row, column);
@@ -92,5 +96,18 @@ void TableWidget::dropEvent(QDropEvent *event)
 
     this->addItem(row, column, subject.getPathImage());
 
-    //emit insertSubject(row, column, subject);
+    emit insertSubject(row, column, subject);
+}
+
+void TableWidget::mousePressEvent(QMouseEvent *event)
+{
+    if(event->button() & Qt::RightButton)
+    {
+        int row = this->indexAt(event->pos()).row();
+        int column = this->indexAt(event->pos()).column();
+
+        emit removeSubject(row, column);
+    }
+
+    return QTableWidget::mousePressEvent(event);
 }

@@ -31,6 +31,10 @@ signals:
                        const Subject &subject,
                        const int subjectCount = 1);
 
+    void removeSubject(const int row,
+                       const int column,
+                       const int subjectCount = 1);
+
 public slots:
     void slotUpdateValueInCell(const int newValue,
                                const int row,
@@ -47,6 +51,8 @@ protected:
     void dragEnterEvent(QDragEnterEvent *event);
     void dragMoveEvent(QDragMoveEvent *event);
     void dropEvent(QDropEvent *event);
+
+    void mousePressEvent(QMouseEvent *event);
 
 private:
     const int WIDGET_WIDTH = 450;

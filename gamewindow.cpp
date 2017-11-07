@@ -26,10 +26,19 @@ GameWindow::GameWindow(QWidget *parent) :
             SIGNAL(insertSubject(int,int,Subject,int)),
             _ptrInventory,
             SLOT(addSubjectOfInventoryCell(int,int,Subject,int)));
+    connect(_ptrTableWidget,
+            SIGNAL(removeSubject(int,int,int)),
+            _ptrInventory,
+            SLOT(deleteSubjectInInventoryCell(int,int,int)));
+
     connect(_ptrInventory,
             SIGNAL(signalUpdateValueInInventoryCell(int,int,int)),
             _ptrTableWidget,
             SLOT(slotUpdateValueInCell(int,int,int)));
+    connect(_ptrInventory,
+            SIGNAL(inventoryCellIsEmpty(int,int)),
+            _ptrTableWidget,
+            SLOT(removeItem(int,int)));
 }
 
 GameWindow::~GameWindow()

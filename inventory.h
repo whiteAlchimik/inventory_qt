@@ -24,8 +24,7 @@ public:
     ~Inventory();
 
 signals:
-    void createWidgetSubject(const int row, const int column);
-    void destroyWidgetSubject(const int row, const int column);
+    void inventoryCellIsEmpty(const int row, const int column);
     void signalUpdateValueInInventoryCell(const int newValue,
                                  const int row,
                                  const int column);

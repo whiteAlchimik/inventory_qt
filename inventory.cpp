@@ -55,9 +55,17 @@ void Inventory::deleteSubjectInInventoryCell(const int row, const int column, co
         return;
 
     if(subjectCount <= 0)
+    {
         return;
+    }
 
     _mapInventoryCells[row][column].deleteSubject(subjectCount);
+
+    if(_mapInventoryCells[row][column].isEmpty())
+    {
+        emit inventoryCellIsEmpty(row, column);
+        return;
+    }
 
     emit signalUpdateValueInInventoryCell(_mapInventoryCells[row][column].numberSubject(),
                                  row,
