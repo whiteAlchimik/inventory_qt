@@ -8,16 +8,40 @@
 #include <QByteArray>
 #include <QDataStream>
 #include <QIODevice>
+#include <QString>
 #include "subjectwidget.h"
 
 #include <QDebug>
 
 class TableWidget : public QTableWidget
 {
+
+    Q_OBJECT
+
 public:
-    TableWidget(QWidget *parent = nullptr);
+    TableWidget(int rows,
+                int columns,
+                QWidget *parent = nullptr);
 
     ~TableWidget();
+
+signals:
+    void insertSubject(const int row,
+                       const int column,
+                       const Subject &subject,
+                       const int subjectCount = 1);
+
+public slots:
+    void slotUpdateValueInCell(const int newValue,
+                               const int row,
+                               const int column);
+
+    void addItem(const int row,
+                 const int column,
+                 const QString pathImage);
+
+    void removeItem(const int row,
+                    const int column);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event);
@@ -28,8 +52,8 @@ private:
     const int WIDGET_WIDTH = 450;
     const int WIDGET_HEIGHT = 450;
 
-    const int TABLE_COLUMNS = 3;
-    const int TABLE_ROWS = 3;
+    const int ICON_WIDTH = 130;
+    const int ICON_HEIGHT = 130;
 };
 
 #endif // TABLEWIDGET_H

@@ -48,6 +48,18 @@ void Subject::setPathImage(const QString &pathImage)
     _pathImage = pathImage;
 }
 
+bool Subject::operator==(const Subject &subject)
+{
+    return ((_subjectType == subject._subjectType) &&
+            (_pathImage == subject._pathImage));
+}
+
+void Subject::clear()
+{
+    _subjectType = Subject::UNDEFINED;
+    _pathImage.clear();
+}
+
 QDataStream & operator<<(QDataStream &out, const Subject &subject)
 {
     out << static_cast<qint16>(subject._subjectType) << subject._pathImage;

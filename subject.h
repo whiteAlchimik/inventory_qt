@@ -32,6 +32,10 @@ public:
     QString getPathImage() const;
     void setPathImage(const QString &pathImage);
 
+    bool operator==(const Subject &subject);
+
+    void clear();
+
     friend QDataStream & operator<<(QDataStream &out, const Subject &subject);
     friend QDataStream & operator>>(QDataStream &in, Subject &subject);
 

@@ -5,30 +5,55 @@ InventoryCell::InventoryCell() :
     _numberSubject(0)
 {}
 
+InventoryCell::InventoryCell(const InventoryCell &inventoryCell) :
+    _subject(inventoryCell._subject),
+    _numberSubject(inventoryCell._numberSubject)
+{}
+
 Subject InventoryCell::subject() const
 {
     return _subject;
 }
 
-void InventoryCell::setSubject(const Subject &subject)
-{
-    _subject = subject;
-}
-
-size_t InventoryCell::numberSubject() const
+int InventoryCell::numberSubject() const
 {
     return _numberSubject;
 }
 
-void InventoryCell::incrementNumberSubject()
+bool InventoryCell::isEmpty() const
 {
-    _numberSubject += 1;
+    return (_numberSubject == 0);
 }
 
-void InventoryCell::decrementNumberSubject()
+void InventoryCell::addSubject(const Subject &subject,
+                               const int subjectCount)
 {
-    if(_numberSubject == 0)
-        return;
-
-    _numberSubject -= 1;
+    if(_subject == subject)
+    {
+        _numberSubject += subjectCount;
+    }
+    else
+    {
+        this->clear();
+        _subject = subject;
+        _numberSubject += subjectCount;
+    }
 }
+
+void InventoryCell::deleteSubject(const int subjectCount)
+{
+    _numberSubject -= subjectCount;
+    if(_numberSubject <= 0)
+    {
+        this->clear();
+    }
+}
+
+void InventoryCell::clear()
+{
+    _subject.clear();
+    _numberSubject = 0;
+}
+
+InventoryCell::~InventoryCell()
+{}

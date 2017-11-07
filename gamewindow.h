@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "subjectwidget.h"
 #include "tablewidget.h"
+#include "inventory.h"
 
 namespace Ui {
 class GameWindow;
@@ -30,6 +31,11 @@ private:
     SubjectWidget *_ptrSubjectWidget;
 
     TableWidget *_ptrTableWidget;
+
+    Inventory *_ptrInventory;
+
+    const int TABLE_ROWS = 3;
+    const int TABLE_COLUMNS = 3;
 };
 
 #endif // GAMEWINDOW_H

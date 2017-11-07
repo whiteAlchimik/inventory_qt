@@ -8,17 +8,31 @@ class InventoryCell
 public:
     InventoryCell();
 
+    InventoryCell(const InventoryCell &inventoryCell);
+
     Subject subject() const;
-    void setSubject(const Subject &subject);
 
-    size_t numberSubject() const;
+    int numberSubject() const;
 
-    void incrementNumberSubject();
-    void decrementNumberSubject();
+    /*
+     * Checks if the inventory cell has no subject.
+     * Return value : true if the inventory cell is empty,
+     *                false otherwise
+     */
+    bool isEmpty() const;
+
+    void addSubject(const Subject &subject,
+                    const int subjectCount);
+
+    void deleteSubject(const int subjectCount);
+
+    void clear();
+
+    ~InventoryCell();
 
 private:
     Subject _subject;
-    size_t _numberSubject;
+    int _numberSubject;
 };
 
 #endif // INVENTORYCELL_H

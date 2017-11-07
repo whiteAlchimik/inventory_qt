@@ -9,13 +9,27 @@ GameWindow::GameWindow(QWidget *parent) :
 
     _ptrSubjectApple = new Subject(Subject::APPLE, ":/resources/images/image_apple.jpg");
 
-    _ptrSubjectWidget = new SubjectWidget;
+    _ptrSubjectWidget = new SubjectWidget(this);
     _ptrSubjectWidget->setSubject(_ptrSubjectApple);
-
-    _ptrTableWidget = new TableWidget;
-
     ui->layuotSubjectWidget->addWidget(_ptrSubjectWidget);
+
+    _ptrTableWidget = new TableWidget(TABLE_ROWS,
+                                      TABLE_COLUMNS,
+                                      this);
     ui->layoutTableWidget->addWidget(_ptrTableWidget);
+
+    _ptrInventory = new Inventory(TABLE_ROWS,
+                                  TABLE_COLUMNS,
+                                  this);
+
+    connect(_ptrTableWidget,
+            SIGNAL(insertSubject(int,int,Subject,int)),
+            _ptrInventory,
+            SLOT(addSubjectOfInventoryCell(int,int,Subject,int)));
+    connect(_ptrInventory,
+            SIGNAL(signalUpdateValueInInventoryCell(int,int,int)),
+            _ptrTableWidget,
+            SLOT(slotUpdateValueInCell(int,int,int)));
 }
 
 GameWindow::~GameWindow()
