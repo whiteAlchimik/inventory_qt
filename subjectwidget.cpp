@@ -34,20 +34,21 @@ void SubjectWidget::mousePressEvent(QMouseEvent *event)
 
 void SubjectWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    if (!(event->buttons() & Qt::LeftButton))
-        return;
-    if ((event->pos() - _dragStartPosition).manhattanLength()
-            < QApplication::startDragDistance())
-        return;
+    if((event->buttons() & Qt::LeftButton) &&
+            ((event->pos() - _dragStartPosition).manhattanLength() <
+             QApplication::startDragDistance()))
+    {
+        QDrag *drag = new QDrag(this);
+        QMimeData *mimeData = new QMimeData;
 
-    QDrag *drag = new QDrag(this);
-    QMimeData *mimeData = new QMimeData;
+        QByteArray byteArray;
+        QDataStream dataStream(&byteArray, QIODevice::WriteOnly);
+        dataStream << *(_ptrSubject);
 
-    QByteArray byteArray;
-    QDataStream dataStream(&byteArray, QIODevice::WriteOnly);
-    dataStream << *(_ptrSubject);
+        mimeData->setData(_ptrSubject->mimeType, byteArray);
+        drag->setMimeData(mimeData);
+        Qt::DropAction dropAction = drag->exec(Qt::CopyAction);
+    }
 
-    mimeData->setData(_ptrSubject->mimeType, byteArray);
-    drag->setMimeData(mimeData);
-    Qt::DropAction dropAction = drag->exec(Qt::CopyAction);
+    return QWidget::mouseMoveEvent(event);
 }

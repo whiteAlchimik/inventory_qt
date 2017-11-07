@@ -9,6 +9,8 @@
 #include <QDataStream>
 #include <QIODevice>
 #include <QString>
+#include <QPoint>
+
 #include "subjectwidget.h"
 
 #include <QDebug>
@@ -53,8 +55,11 @@ protected:
     void dropEvent(QDropEvent *event);
 
     void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
 
 private:
+    QPoint _dragStartPosition;
+
     const int WIDGET_WIDTH = 450;
     const int WIDGET_HEIGHT = 450;
 

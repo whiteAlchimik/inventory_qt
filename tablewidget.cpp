@@ -101,7 +101,11 @@ void TableWidget::dropEvent(QDropEvent *event)
 
 void TableWidget::mousePressEvent(QMouseEvent *event)
 {
-    if(event->button() & Qt::RightButton)
+    if(event->button() & Qt::LeftButton)
+    {
+        _dragStartPosition = event->pos();
+    }
+    else if(event->button() & Qt::RightButton)
     {
         int row = this->indexAt(event->pos()).row();
         int column = this->indexAt(event->pos()).column();
@@ -110,4 +114,22 @@ void TableWidget::mousePressEvent(QMouseEvent *event)
     }
 
     return QTableWidget::mousePressEvent(event);
+}
+
+void TableWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    if((event->buttons() & Qt::LeftButton) &&
+            ((event->pos() - _dragStartPosition).manhattanLength() <
+            QApplication::startDragDistance()))
+    {
+        qDebug() << "asdf";
+        QDrag *drag = new QDrag(this);
+        QMimeData *mimeData = new QMimeData;
+
+        //mimeData->setData(_ptrSubject->mimeType, byteArray);
+        drag->setMimeData(mimeData);
+        Qt::DropAction dropAction = drag->exec(Qt::CopyAction);
+    }
+
+    return QTableWidget::mouseMoveEvent(event);
 }

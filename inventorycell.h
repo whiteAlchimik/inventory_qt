@@ -1,14 +1,21 @@
 #ifndef INVENTORYCELL_H
 #define INVENTORYCELL_H
 
+#include <QDataStream>
+#include <QString>
 #include "subject.h"
 
 class InventoryCell
 {
 public:
+
+    static const QString mimeType;
+
     InventoryCell();
 
     InventoryCell(const InventoryCell &inventoryCell);
+
+    InventoryCell & operator=(const InventoryCell &inventoryCell);
 
     Subject subject() const;
 
@@ -27,6 +34,12 @@ public:
     void deleteSubject(const int subjectCount);
 
     void clear();
+
+    friend QDataStream & operator<<(QDataStream &out,
+                                    const InventoryCell &inventoryCell);
+
+    friend QDataStream & operator>>(QDataStream &in,
+                                    InventoryCell &inventoryCell);
 
     ~InventoryCell();
 

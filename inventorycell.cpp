@@ -1,5 +1,7 @@
 #include "inventorycell.h"
 
+const QString InventoryCell::mimeType = "data/inventorycell";
+
 InventoryCell::InventoryCell() :
     _subject(),
     _numberSubject(0)
@@ -9,6 +11,16 @@ InventoryCell::InventoryCell(const InventoryCell &inventoryCell) :
     _subject(inventoryCell._subject),
     _numberSubject(inventoryCell._numberSubject)
 {}
+
+InventoryCell &InventoryCell::operator=(const InventoryCell &inventoryCell)
+{
+    if(this != &inventoryCell)
+    {
+        _subject = inventoryCell._subject;
+        _numberSubject = inventoryCell._numberSubject;
+    }
+    return *this;
+}
 
 Subject InventoryCell::subject() const
 {
@@ -53,6 +65,21 @@ void InventoryCell::clear()
 {
     _subject.clear();
     _numberSubject = 0;
+}
+
+QDataStream & operator<<(QDataStream &out,
+                         const InventoryCell &inventoryCell)
+{
+    out << inventoryCell._subject << inventoryCell._numberSubject;
+    return out;
+}
+
+QDataStream & operator>>(QDataStream &in,
+                         InventoryCell &invenoryCell)
+{
+    in >> invenoryCell._subject;
+    in >> invenoryCell._numberSubject;
+    return in;
 }
 
 InventoryCell::~InventoryCell()
