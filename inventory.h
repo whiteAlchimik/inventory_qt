@@ -3,7 +3,9 @@
 
 #include <QObject>
 #include <QVector>
+
 #include "inventorycell.h"
+#include "subject.h"
 
 class Inventory : public QObject
 {
@@ -11,6 +13,8 @@ class Inventory : public QObject
     Q_OBJECT
 
 public:
+    static const QString mimeTypeForMove;
+
     Inventory(const int rows,
               const int columns,
               QObject *parent = nullptr);
@@ -24,6 +28,9 @@ public:
     ~Inventory();
 
 signals:
+    void signalUpdateInventoryCell(const int row,
+                                   const int column,
+                                   const InventoryCell &inventoryCell);
     void inventoryCellIsEmpty(const int row, const int column);
     void signalUpdateValueInInventoryCell(const int newValue,
                                  const int row,
@@ -38,6 +45,11 @@ public slots:
     void deleteSubjectInInventoryCell(const int row,
                                       const int column,
                                       const int subjectCount = 1);
+
+    void moveSubjectInInventory(const int sourceRow,
+                                const int sourceColumn,
+                                const int receiverRow,
+                                const int receiverColumn);
 
 private:
     int _rows;

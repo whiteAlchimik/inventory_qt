@@ -39,21 +39,31 @@ void TableWidget::slotUpdateValueInCell(const int newValue, const int row, const
     {
         this->item(row, column)->setText(QString::number(newValue));
     }
+    qDebug() << "slotUpdateValueInCell " << QString::number(newValue) <<
+                " row: " << row << " column: " << column;
 }
 
-void TableWidget::addItem(const int row, const int column, const QString pathImage)
+void TableWidget::addItem(const int row,
+                          const int column,
+                          const InventoryCell &inventoryCell)
 {
     if((row >= this->rowCount() || row < 0) ||
-            (column >= this->columnCount() || column < 0) ||
-            (this->item(row, column) != nullptr))
+            (column >= this->columnCount() || column < 0))
     {
         return;
     }
 
+    if(this->item(row, column) != nullptr)
+    {
+        this->removeItem(row, column);
+    }
+
     QTableWidgetItem *item = new QTableWidgetItem;
-    item->setIcon(QIcon(QPixmap(pathImage)));
+    item->setIcon(QIcon(QPixmap(inventoryCell.subject().getPathImage())));
     item->setTextAlignment(Qt::AlignBottom | Qt::AlignRight);
+    item->setText(QString::number(inventoryCell.numberSubject()));
     this->setItem(row, column, item);
+    qDebug() << "addItem" << QString::number(inventoryCell.numberSubject());
 }
 
 void TableWidget::removeItem(const int row, const int column)
@@ -75,6 +85,10 @@ void TableWidget::dragEnterEvent(QDragEnterEvent *event)
     {
         event->acceptProposedAction();
     }
+    else if(event->mimeData()->hasFormat(Inventory::mimeTypeForMove))
+    {
+        event->acceptProposedAction();
+    }
 }
 
 void TableWidget::dragMoveEvent(QDragMoveEvent *event)
@@ -84,19 +98,29 @@ void TableWidget::dragMoveEvent(QDragMoveEvent *event)
 
 void TableWidget::dropEvent(QDropEvent *event)
 {
-    QTableWidget::dropEvent(event);
+    if(event->mimeData()->hasFormat(Subject::mimeType))
+    {
+        QByteArray in;
+        in = event->mimeData()->data(Subject::mimeType);
+        QDataStream dataStream(&in, QIODevice::ReadOnly);
+        Subject subject;
+        dataStream >> subject;
+        int row = this->indexAt(event->pos()).row();
+        int column = this->indexAt(event->pos()).column();
 
-    QByteArray in;
-    in = event->mimeData()->data(Subject::mimeType);
-    QDataStream dataStream(&in, QIODevice::ReadOnly);
-    Subject subject;
-    dataStream >> subject;
-    int row = this->indexAt(event->pos()).row();
-    int column = this->indexAt(event->pos()).column();
-
-    this->addItem(row, column, subject.getPathImage());
-
-    emit insertSubject(row, column, subject);
+        emit insertSubject(row, column, subject);
+    }
+    else if(event->mimeData()->hasFormat(Inventory::mimeTypeForMove))
+    {
+        QByteArray in;
+        in = event->mimeData()->data(Inventory::mimeTypeForMove);
+        QDataStream dataStream(&in, QIODevice::ReadOnly);
+        QPoint point;
+        dataStream >> point;
+        int row = this->indexAt(event->pos()).row();
+        int column = this->indexAt(event->pos()).column();
+        emit signalMoveSubject(point.x(), point.y(), row, column);
+    }
 }
 
 void TableWidget::mousePressEvent(QMouseEvent *event)
@@ -126,9 +150,17 @@ void TableWidget::mouseMoveEvent(QMouseEvent *event)
         QDrag *drag = new QDrag(this);
         QMimeData *mimeData = new QMimeData;
 
-        //mimeData->setData(_ptrSubject->mimeType, byteArray);
+        int row = this->indexAt(event->pos()).row();
+        int column = this->indexAt(event->pos()).column();
+        QPoint point(row, column);
+
+        QByteArray byteArray;
+        QDataStream dataStream(&byteArray, QIODevice::WriteOnly);
+        dataStream << point;
+
+        mimeData->setData(Inventory::mimeTypeForMove, byteArray);
         drag->setMimeData(mimeData);
-        Qt::DropAction dropAction = drag->exec(Qt::CopyAction);
+        Qt::DropAction dropAction = drag->exec(Qt::MoveAction);
     }
 
     return QTableWidget::mouseMoveEvent(event);

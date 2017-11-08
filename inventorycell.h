@@ -3,6 +3,7 @@
 
 #include <QDataStream>
 #include <QString>
+
 #include "subject.h"
 
 class InventoryCell

@@ -19,7 +19,7 @@ public:
     /*
      * Copy constructor.
      */
-    explicit Subject(const Subject &subject);
+    Subject(const Subject &subject);
 
     /*
      * Copy assignment operator.

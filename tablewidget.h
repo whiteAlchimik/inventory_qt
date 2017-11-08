@@ -12,6 +12,7 @@
 #include <QPoint>
 
 #include "subjectwidget.h"
+#include "inventory.h"
 
 #include <QDebug>
 
@@ -37,6 +38,11 @@ signals:
                        const int column,
                        const int subjectCount = 1);
 
+    void signalMoveSubject(const int sourceRow,
+                           const int sourceColumn,
+                           const int receiverRow,
+                           const int receiverColumn);
+
 public slots:
     void slotUpdateValueInCell(const int newValue,
                                const int row,
@@ -44,7 +50,7 @@ public slots:
 
     void addItem(const int row,
                  const int column,
-                 const QString pathImage);
+                 const InventoryCell &inventoryCell);
 
     void removeItem(const int row,
                     const int column);
