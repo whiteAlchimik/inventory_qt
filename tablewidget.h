@@ -69,8 +69,8 @@ private:
     const int WIDGET_WIDTH = 450;
     const int WIDGET_HEIGHT = 450;
 
-    const int ICON_WIDTH = 130;
-    const int ICON_HEIGHT = 130;
+    const int ICON_WIDTH = 120;
+    const int ICON_HEIGHT = 120;
 };
 
 #endif // TABLEWIDGET_H
