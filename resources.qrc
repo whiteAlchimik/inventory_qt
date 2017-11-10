@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>resources/images/image_apple.jpg</file>
+        <file>resources/sounds/apple_bite.mp3</file>
     </qresource>
 </RCC>

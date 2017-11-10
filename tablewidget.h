@@ -29,6 +29,8 @@ public:
     ~TableWidget();
 
 signals:
+    void signalPlayAppleBite();
+
     void insertSubject(const int row,
                        const int column,
                        const Subject &subject,

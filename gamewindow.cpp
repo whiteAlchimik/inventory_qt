@@ -34,6 +34,10 @@ GameWindow::GameWindow(QWidget *parent) :
             SIGNAL(signalMoveSubject(int,int,int,int)),
             _ptrInventory,
             SLOT(moveSubjectInInventory(int,int,int,int)));
+    connect(_ptrTableWidget,
+            SIGNAL(signalPlayAppleBite()),
+            this,
+            SLOT(playAppleBite()));
 
     connect(_ptrInventory,
             SIGNAL(signalUpdateInventoryCell(int,int,InventoryCell)),
@@ -58,4 +62,11 @@ GameWindow::~GameWindow()
 void GameWindow::on_mainMenu_clicked()
 {
     emit signalShowMainWindow();
+}
+
+void GameWindow::playAppleBite()
+{
+    QMediaPlayer* player = new QMediaPlayer();
+    player->setMedia(QUrl("qrc:/resources/sounds/apple_bite.mp3"));
+    player->play();
 }

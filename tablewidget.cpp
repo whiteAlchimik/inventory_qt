@@ -11,7 +11,9 @@ TableWidget::TableWidget(int rows,
 
     this->setShowGrid(true);
 
-    this->setSelectionMode(QAbstractItemView::SingleSelection);
+    //this->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    this->setSelectionMode(QAbstractItemView::NoSelection);
 
     this->horizontalHeader()->hide();
     this->verticalHeader()->hide();
@@ -39,8 +41,6 @@ void TableWidget::slotUpdateValueInCell(const int newValue, const int row, const
     {
         this->item(row, column)->setText(QString::number(newValue));
     }
-    qDebug() << "slotUpdateValueInCell " << QString::number(newValue) <<
-                " row: " << row << " column: " << column;
 }
 
 void TableWidget::addItem(const int row,
@@ -63,7 +63,6 @@ void TableWidget::addItem(const int row,
     item->setTextAlignment(Qt::AlignBottom | Qt::AlignRight);
     item->setText(QString::number(inventoryCell.numberSubject()));
     this->setItem(row, column, item);
-    qDebug() << "addItem" << QString::number(inventoryCell.numberSubject());
 }
 
 void TableWidget::removeItem(const int row, const int column)
@@ -74,9 +73,12 @@ void TableWidget::removeItem(const int row, const int column)
         return;
     }
 
-    QTableWidgetItem *item = this->item(row, column);
-    this->takeItem(row, column);
-    delete item;
+    if(this->item(row, column) != nullptr)
+    {
+        QTableWidgetItem *item = this->item(row, column);
+        this->takeItem(row, column);
+        delete item;
+    }
 }
 
 void TableWidget::dragEnterEvent(QDragEnterEvent *event)
@@ -134,7 +136,11 @@ void TableWidget::mousePressEvent(QMouseEvent *event)
         int row = this->indexAt(event->pos()).row();
         int column = this->indexAt(event->pos()).column();
 
-        emit removeSubject(row, column);
+        if(this->item(row, column) != nullptr)
+        {
+            emit removeSubject(row, column);
+            emit signalPlayAppleBite();
+        }
     }
 
     return QTableWidget::mousePressEvent(event);
@@ -146,7 +152,6 @@ void TableWidget::mouseMoveEvent(QMouseEvent *event)
             ((event->pos() - _dragStartPosition).manhattanLength() <
             QApplication::startDragDistance()))
     {
-        qDebug() << "asdf";
         QDrag *drag = new QDrag(this);
         QMimeData *mimeData = new QMimeData;
 

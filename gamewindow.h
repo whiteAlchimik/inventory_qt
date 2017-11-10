@@ -2,6 +2,8 @@
 #define GAMEWINDOW_H
 
 #include <QWidget>
+#include <QMediaPlayer>
+
 #include "subjectwidget.h"
 #include "tablewidget.h"
 #include "inventory.h"
@@ -23,6 +25,7 @@ signals:
 
 private slots:
     void on_mainMenu_clicked();
+    void playAppleBite();
 
 private:
     Ui::GameWindow *ui;
