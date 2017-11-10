@@ -11,8 +11,6 @@ TableWidget::TableWidget(int rows,
 
     this->setShowGrid(true);
 
-    //this->setSelectionMode(QAbstractItemView::SingleSelection);
-
     this->setSelectionMode(QAbstractItemView::NoSelection);
 
     this->horizontalHeader()->hide();
