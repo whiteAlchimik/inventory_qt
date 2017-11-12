@@ -47,6 +47,8 @@ void SubjectWidget::mouseMoveEvent(QMouseEvent *event)
 
         mimeData->setData(_ptrSubject->mimeType, byteArray);
         drag->setMimeData(mimeData);
+        drag->setPixmap(QPixmap::fromImage(_image).scaled(WIDGET_WIDTH, WIDGET_HEIGHT));
+        drag->setHotSpot(QPoint(WIDGET_WIDTH / 2, WIDGET_HEIGHT / 2));
         Qt::DropAction dropAction = drag->exec(Qt::CopyAction);
     }
 
