@@ -150,20 +150,24 @@ void TableWidget::mouseMoveEvent(QMouseEvent *event)
             ((event->pos() - _dragStartPosition).manhattanLength() <
             QApplication::startDragDistance()))
     {
-        QDrag *drag = new QDrag(this);
-        QMimeData *mimeData = new QMimeData;
-
         int row = this->indexAt(event->pos()).row();
         int column = this->indexAt(event->pos()).column();
-        QPoint point(row, column);
 
-        QByteArray byteArray;
-        QDataStream dataStream(&byteArray, QIODevice::WriteOnly);
-        dataStream << point;
+        if(this->item(row, column) != nullptr)
+        {
+            QDrag *drag = new QDrag(this);
+            QMimeData *mimeData = new QMimeData;
 
-        mimeData->setData(Inventory::mimeTypeForMove, byteArray);
-        drag->setMimeData(mimeData);
-        Qt::DropAction dropAction = drag->exec(Qt::MoveAction);
+            QPoint point(row, column);
+
+            QByteArray byteArray;
+            QDataStream dataStream(&byteArray, QIODevice::WriteOnly);
+            dataStream << point;
+
+            mimeData->setData(Inventory::mimeTypeForMove, byteArray);
+            drag->setMimeData(mimeData);
+            Qt::DropAction dropAction = drag->exec(Qt::MoveAction);
+        }
     }
 
     return QTableWidget::mouseMoveEvent(event);
