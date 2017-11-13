@@ -7,7 +7,7 @@ TableWidget::TableWidget(int rows,
 {
     this->setAcceptDrops(true);
 
-    this->setFixedSize(WIDGET_WIDTH, WIDGET_HEIGHT);
+    this->setFixedSize(CELL_WIDTH * columns, CELL_HEIGHT * rows);
 
     this->setShowGrid(true);
 
@@ -57,6 +57,7 @@ void TableWidget::addItem(const int row,
     }
 
     QTableWidgetItem *item = new QTableWidgetItem;
+
     item->setIcon(QIcon(QPixmap(inventoryCell.subject().getPathImage())));
     item->setTextAlignment(Qt::AlignBottom | Qt::AlignRight);
     item->setText(QString::number(inventoryCell.numberSubject()));
@@ -166,6 +167,18 @@ void TableWidget::mouseMoveEvent(QMouseEvent *event)
 
             mimeData->setData(Inventory::mimeTypeForMove, byteArray);
             drag->setMimeData(mimeData);
+
+            QString text = this->item(row, column)->text();
+            QPixmap pixmap = this->item(row, column)->icon().pixmap(QSize(CELL_WIDTH, CELL_HEIGHT));
+            QPainter painter(&pixmap);
+            painter.drawText(0,
+                             0,
+                             CELL_WIDTH,
+                             CELL_HEIGHT,
+                             Qt::AlignBottom | Qt::AlignRight,
+                             text);
+            drag->setPixmap(pixmap);
+            drag->setHotSpot(QPoint(CELL_WIDTH / 2, CELL_HEIGHT / 2));
             Qt::DropAction dropAction = drag->exec(Qt::MoveAction);
         }
     }

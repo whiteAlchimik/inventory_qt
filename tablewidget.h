@@ -68,11 +68,11 @@ protected:
 private:
     QPoint _dragStartPosition;
 
-    const int WIDGET_WIDTH = 450;
-    const int WIDGET_HEIGHT = 450;
+    const int CELL_WIDTH = 150;
+    const int CELL_HEIGHT = 150;
 
-    const int ICON_WIDTH = 120;
-    const int ICON_HEIGHT = 120;
+    const int ICON_WIDTH = 110;
+    const int ICON_HEIGHT = 110;
 };
 
 #endif // TABLEWIDGET_H
