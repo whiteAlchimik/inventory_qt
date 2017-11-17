@@ -2,47 +2,49 @@
 #define SUBJECT_H
 
 #include <QString>
+#include <QByteArray>
 #include <QDataStream>
+
+#include "subjectfactory.h"
 
 class Subject
 {
 public:
-
-    enum SUBJECT_TYPE : qint16 {UNDEFINED, APPLE};
     static const QString mimeType;
 
-    explicit Subject();
+    Subject();
 
-    explicit Subject(const SUBJECT_TYPE subjectType,
-                     const QString &pathImage);
+    Subject(const QString &subjectType,
+            const QString &pathImage);
 
-    /*
-     * Copy constructor.
-     */
-    Subject(const Subject &subject);
-
-    /*
-     * Copy assignment operator.
-     */
     Subject & operator=(const Subject &subject);
 
-    SUBJECT_TYPE getSubjectType() const;
-    void setSubjectType(const SUBJECT_TYPE &subjectType);
+    QString subjectType() const;
 
-    QString getPathImage() const;
-    void setPathImage(const QString &pathImage);
+    QString pathImage() const;
 
-    bool operator==(const Subject &subject);
+    virtual QString serializationId() const = 0;
 
-    void clear();
+    virtual bool cmp(const Subject *ptrSubject) const = 0;
+
+    virtual Subject * clone() const = 0;
 
     friend QDataStream & operator<<(QDataStream &out, const Subject &subject);
+
     friend QDataStream & operator>>(QDataStream &in, Subject &subject);
 
-    ~Subject();
+    static QByteArray serialize(const Subject *ptrSubject);
+
+    static Subject * deserialize(QByteArray &byteArray);
+
+    virtual ~Subject() {}
+
+protected:
+    virtual void qDataStreamWrite(QDataStream &out) const = 0;
+    virtual void qDataStreamRead(QDataStream &in) = 0;
 
 private:
-    SUBJECT_TYPE _subjectType;
+    QString _subjectType;
     QString _pathImage;
 };
 

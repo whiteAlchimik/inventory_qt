@@ -7,7 +7,7 @@ GameWindow::GameWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    _ptrSubjectApple = new Subject(Subject::APPLE, ":/resources/images/image_apple.jpg");
+    _ptrSubjectApple = new SubjectApple;
 
     _ptrSubjectWidget = new SubjectWidget(this);
     _ptrSubjectWidget->setSubject(_ptrSubjectApple);
@@ -34,10 +34,10 @@ GameWindow::GameWindow(QWidget *parent) :
             SIGNAL(signalMoveSubject(int,int,int,int)),
             _ptrInventory,
             SLOT(moveSubjectInInventory(int,int,int,int)));
-    connect(_ptrTableWidget,
+    /*connect(_ptrTableWidget,
             SIGNAL(signalPlayAppleBite()),
             this,
-            SLOT(playAppleBite()));
+            SLOT(playAppleBite()));*/
 
     connect(_ptrInventory,
             SIGNAL(signalUpdateInventoryCell(int,int,InventoryCell)),

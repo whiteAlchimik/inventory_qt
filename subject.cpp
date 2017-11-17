@@ -3,19 +3,14 @@
 const QString Subject::mimeType = "data/subject";
 
 Subject::Subject() :
-    _subjectType(Subject::UNDEFINED),
+    _subjectType(""),
     _pathImage("")
 {}
 
-Subject::Subject(const SUBJECT_TYPE subjectType,
+Subject::Subject(const QString &subjectType,
                  const QString &pathImage) :
     _subjectType(subjectType),
     _pathImage(pathImage)
-{}
-
-Subject::Subject(const Subject &subject) :
-    _subjectType(subject._subjectType),
-    _pathImage(subject._pathImage)
 {}
 
 Subject &Subject::operator=(const Subject &subject)
@@ -28,52 +23,69 @@ Subject &Subject::operator=(const Subject &subject)
     return *this;
 }
 
-Subject::SUBJECT_TYPE Subject::getSubjectType() const
+QString Subject::subjectType() const
 {
     return _subjectType;
 }
 
-void Subject::setSubjectType(const SUBJECT_TYPE &subjectType)
-{
-    _subjectType = subjectType;
-}
-
-QString Subject::getPathImage() const
+QString Subject::pathImage() const
 {
     return _pathImage;
 }
 
-void Subject::setPathImage(const QString &pathImage)
-{
-    _pathImage = pathImage;
-}
-
-bool Subject::operator==(const Subject &subject)
-{
-    return ((_subjectType == subject._subjectType) &&
-            (_pathImage == subject._pathImage));
-}
-
-void Subject::clear()
-{
-    _subjectType = Subject::UNDEFINED;
-    _pathImage.clear();
-}
-
 QDataStream & operator<<(QDataStream &out, const Subject &subject)
 {
-    out << static_cast<qint16>(subject._subjectType) << subject._pathImage;
+    subject.qDataStreamWrite(out);
     return out;
 }
 
 QDataStream & operator>>(QDataStream &in, Subject &subject)
 {
-    qint16 temp;
-    in >> temp;
-    subject._subjectType = static_cast<Subject::SUBJECT_TYPE>(temp);
-    in >> subject._pathImage;
+    subject.qDataStreamRead(in);
     return in;
 }
 
-Subject::~Subject()
-{}
+QByteArray Subject::serialize(const Subject *ptrSubject)
+{
+    if(ptrSubject == nullptr)
+    {
+        return QByteArray();
+    }
+
+    QByteArray byteArray;
+    QDataStream dataStream(&byteArray, QIODevice::WriteOnly);
+
+    dataStream << ptrSubject->serializationId();
+    dataStream << *(ptrSubject);
+
+    return byteArray;
+}
+
+Subject *Subject::deserialize(QByteArray &byteArray)
+{
+    if(byteArray.isEmpty())
+    {
+        return nullptr;
+    }
+
+    QDataStream dataStream(&byteArray, QIODevice::ReadOnly);
+    QString serializationId;
+    dataStream >> serializationId;
+
+    Subject *ptr = SinglentonSubjectFactory::getInstance().create(serializationId);
+    dataStream >> *(ptr);
+
+    return ptr;
+}
+
+void Subject::qDataStreamWrite(QDataStream &out) const
+{
+    out << _subjectType;
+    out << _pathImage;
+}
+
+void Subject::qDataStreamRead(QDataStream &in)
+{
+    in >> _subjectType;
+    in >> _pathImage;
+}

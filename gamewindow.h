@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QMediaPlayer>
 
+#include "subjectapple.h"
 #include "subjectwidget.h"
 #include "tablewidget.h"
 #include "inventory.h"
@@ -30,7 +31,7 @@ private slots:
 private:
     Ui::GameWindow *ui;
 
-    Subject *_ptrSubjectApple;
+    SubjectApple *_ptrSubjectApple;
     SubjectWidget *_ptrSubjectWidget;
 
     TableWidget *_ptrTableWidget;

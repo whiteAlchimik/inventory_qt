@@ -12,13 +12,17 @@ public:
 
     static const QString mimeType;
 
+    enum STATE : qint8 {EMPTY = 0, //inventory cell is empty
+                        WEAK_STATE, //inventory cell has one subject
+                        STRONG_STATE}; //inventory cell has >1 subject
+
     InventoryCell();
 
     InventoryCell(const InventoryCell &inventoryCell);
 
     InventoryCell & operator=(const InventoryCell &inventoryCell);
 
-    Subject subject() const;
+    const Subject * subject() const;
 
     int numberSubject() const;
 
@@ -29,23 +33,24 @@ public:
      */
     bool isEmpty() const;
 
-    void addSubject(const Subject &subject,
-                    const int subjectCount);
+    STATE addSubject(const Subject &subject,
+                    const int subjectCount = 1);
 
-    void deleteSubject(const int subjectCount);
+    STATE deleteSubject(const int subjectCount = 1);
 
     void clear();
 
-    friend QDataStream & operator<<(QDataStream &out,
+    /*friend QDataStream & operator<<(QDataStream &out,
                                     const InventoryCell &inventoryCell);
 
     friend QDataStream & operator>>(QDataStream &in,
-                                    InventoryCell &inventoryCell);
+                                    InventoryCell &inventoryCell);*/
 
     ~InventoryCell();
 
 private:
-    Subject _subject;
+    STATE _state;
+    Subject *_ptrSubject;
     int _numberSubject;
 };
 

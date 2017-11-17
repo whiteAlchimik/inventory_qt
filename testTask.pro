@@ -31,7 +31,9 @@ SOURCES += \
     subjectwidget.cpp \
     tablewidget.cpp \
     inventorycell.cpp \
-    inventory.cpp
+    inventory.cpp \
+    subjectapple.cpp \
+    subjectfactory.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -40,7 +42,9 @@ HEADERS += \
     subjectwidget.h \
     tablewidget.h \
     inventorycell.h \
-    inventory.h
+    inventory.h \
+    subjectapple.h \
+    subjectfactory.h
 
 FORMS += \
         mainwindow.ui \

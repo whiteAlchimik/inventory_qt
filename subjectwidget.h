@@ -2,7 +2,6 @@
 #define SUBJECTWIDGET_H
 
 #include <QWidget>
-
 #include <QImage>
 #include <QPainter>
 #include <QPoint>
@@ -12,9 +11,8 @@
 #include <QMimeData>
 #include <QIODevice>
 #include <QDataStream>
-#include "subject.h"
 
-#include <QDebug>
+#include "subject.h"
 
 class SubjectWidget : public QWidget
 {
@@ -26,7 +24,7 @@ public:
 
     void setSubject(Subject *ptrSubject);
 
-    ~SubjectWidget();
+    ~SubjectWidget() {}
 
 protected:
     void mousePressEvent(QMouseEvent *event);

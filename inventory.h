@@ -23,7 +23,7 @@ public:
 
     size_t columns() const;
 
-    InventoryCell inventoryCell(const int row, const int column);
+    //InventoryCell inventoryCell(const int row, const int column);
 
     ~Inventory();
 

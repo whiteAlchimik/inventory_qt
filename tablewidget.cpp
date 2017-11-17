@@ -58,7 +58,7 @@ void TableWidget::addItem(const int row,
 
     QTableWidgetItem *item = new QTableWidgetItem;
 
-    item->setIcon(QIcon(QPixmap(inventoryCell.subject().getPathImage())));
+    item->setIcon(QIcon(QPixmap(inventoryCell.subject()->pathImage())));
     item->setTextAlignment(Qt::AlignBottom | Qt::AlignRight);
     item->setText(QString::number(inventoryCell.numberSubject()));
     this->setItem(row, column, item);
@@ -101,15 +101,17 @@ void TableWidget::dropEvent(QDropEvent *event)
 {
     if(event->mimeData()->hasFormat(Subject::mimeType))
     {
-        QByteArray in;
-        in = event->mimeData()->data(Subject::mimeType);
-        QDataStream dataStream(&in, QIODevice::ReadOnly);
-        Subject subject;
-        dataStream >> subject;
         int row = this->indexAt(event->pos()).row();
         int column = this->indexAt(event->pos()).column();
 
-        emit insertSubject(row, column, subject);
+        QByteArray in;
+        in = event->mimeData()->data(Subject::mimeType);
+        Subject *ptrSubject = Subject::deserialize(in);
+
+        if(ptrSubject != nullptr)
+        {
+            emit insertSubject(row, column, *(ptrSubject));
+        }
     }
     else if(event->mimeData()->hasFormat(Inventory::mimeTypeForMove))
     {
@@ -118,8 +120,10 @@ void TableWidget::dropEvent(QDropEvent *event)
         QDataStream dataStream(&in, QIODevice::ReadOnly);
         QPoint point;
         dataStream >> point;
+
         int row = this->indexAt(event->pos()).row();
         int column = this->indexAt(event->pos()).column();
+
         emit signalMoveSubject(point.x(), point.y(), row, column);
     }
 }
@@ -179,6 +183,7 @@ void TableWidget::mouseMoveEvent(QMouseEvent *event)
                              text);
             drag->setPixmap(pixmap);
             drag->setHotSpot(QPoint(CELL_WIDTH / 2, CELL_HEIGHT / 2));
+
             Qt::DropAction dropAction = drag->exec(Qt::MoveAction);
         }
     }

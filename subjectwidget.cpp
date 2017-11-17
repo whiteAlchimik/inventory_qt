@@ -19,12 +19,9 @@ void SubjectWidget::paintEvent(QPaintEvent *event)
 void SubjectWidget::setSubject(Subject *ptrSubject)
 {
     _ptrSubject = ptrSubject;
-    _image.load(_ptrSubject->getPathImage());
+    _image.load(_ptrSubject->pathImage());
     this->update();
 }
-
-SubjectWidget::~SubjectWidget()
-{}
 
 void SubjectWidget::mousePressEvent(QMouseEvent *event)
 {
@@ -41,9 +38,7 @@ void SubjectWidget::mouseMoveEvent(QMouseEvent *event)
         QDrag *drag = new QDrag(this);
         QMimeData *mimeData = new QMimeData;
 
-        QByteArray byteArray;
-        QDataStream dataStream(&byteArray, QIODevice::WriteOnly);
-        dataStream << *(_ptrSubject);
+        QByteArray byteArray = Subject::serialize(_ptrSubject);
 
         mimeData->setData(_ptrSubject->mimeType, byteArray);
         drag->setMimeData(mimeData);
