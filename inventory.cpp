@@ -108,3 +108,23 @@ void Inventory::moveSubjectInInventory(const int sourceRow,
                                        sourceColumn,
                                        _mapInventoryCells[sourceRow][sourceColumn].numberSubject());
 }
+
+QVariantList Inventory::prepareDataForDataBase(const int row, const int column)
+{
+    if((row >= _rows || row < 0) ||
+            (column >= _columns || column < 0))
+    {
+        return QVariantList();
+    }
+
+    QVariantList data;
+
+    data.append(_rows);
+    data.append(_columns);
+    data.append(row);
+    data.append(column);
+    data.append(_mapInventoryCells[row][column].numberSubject());
+    data.append(_mapInventoryCells[row][column].subject()->serializationId());
+
+    return data;
+}

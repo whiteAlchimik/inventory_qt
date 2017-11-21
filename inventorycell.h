@@ -51,7 +51,7 @@ public:
 private:
     STATE _state;
     Subject *_ptrSubject;
-    int _numberSubject;
+    int _numberSubjects;
 };
 
 #endif // INVENTORYCELL_H

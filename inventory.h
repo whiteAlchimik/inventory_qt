@@ -3,9 +3,11 @@
 
 #include <QObject>
 #include <QVector>
+#include <QVariantList>
 
 #include "inventorycell.h"
 #include "subject.h"
+#include "database.h"
 
 class Inventory : public QObject
 {
@@ -55,6 +57,8 @@ private:
     int _rows;
     int _columns;
     QVector<QVector<InventoryCell>> _mapInventoryCells;
+
+    QVariantList prepareDataForDataBase(const int row, const int column);
 };
 
 #endif // INVENTORY_H

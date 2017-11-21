@@ -38,6 +38,17 @@ Subject *SubjectApple::clone() const
     return new SubjectApple();
 }
 
+QVariantList SubjectApple::prepareDataForDataBase() const
+{
+    QVariantList data;
+
+    data.append(SERIALIZATION_ID);
+    data.append(this->subjectType());
+    data.append(this->pathImage());
+
+    return data;
+}
+
 void SubjectApple::qDataStreamWrite(QDataStream &out) const
 {
     Subject::qDataStreamWrite(out);

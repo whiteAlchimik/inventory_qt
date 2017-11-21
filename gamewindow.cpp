@@ -57,6 +57,7 @@ GameWindow::~GameWindow()
 {
     delete ui;
     delete _ptrSubjectApple;
+    delete _ptrInventory;
 }
 
 void GameWindow::on_mainMenu_clicked()

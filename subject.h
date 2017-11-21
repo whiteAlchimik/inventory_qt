@@ -4,6 +4,7 @@
 #include <QString>
 #include <QByteArray>
 #include <QDataStream>
+#include <QVariantList>
 
 #include "subjectfactory.h"
 
@@ -28,6 +29,8 @@ public:
     virtual bool cmp(const Subject *ptrSubject) const = 0;
 
     virtual Subject * clone() const = 0;
+
+    virtual QVariantList prepareDataForDataBase() const = 0;
 
     friend QDataStream & operator<<(QDataStream &out, const Subject &subject);
 

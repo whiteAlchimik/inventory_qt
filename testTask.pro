@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui multimedia
+QT       += core gui multimedia sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -33,7 +33,11 @@ SOURCES += \
     inventorycell.cpp \
     inventory.cpp \
     subjectapple.cpp \
-    subjectfactory.cpp
+    subjectfactory.cpp \
+    database.cpp \
+    subjectmapper.cpp \
+    inventorycellmapper.cpp \
+    inventorymapper.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -44,7 +48,11 @@ HEADERS += \
     inventorycell.h \
     inventory.h \
     subjectapple.h \
-    subjectfactory.h
+    subjectfactory.h \
+    database.h \
+    subjectmapper.h \
+    inventorycellmapper.h \
+    inventorymapper.h
 
 FORMS += \
         mainwindow.ui \
@@ -52,3 +60,5 @@ FORMS += \
 
 RESOURCES += \
     resources.qrc
+
+DISTFILES +=

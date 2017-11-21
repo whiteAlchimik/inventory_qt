@@ -5,13 +5,13 @@ const QString InventoryCell::mimeType = "data/inventorycell";
 InventoryCell::InventoryCell() :
     _state(STATE::EMPTY),
     _ptrSubject(nullptr),
-    _numberSubject(0)
+    _numberSubjects(0)
 {}
 
 InventoryCell::InventoryCell(const InventoryCell &inventoryCell) :
     _state(inventoryCell._state),
     _ptrSubject(nullptr),
-    _numberSubject(inventoryCell._numberSubject)
+    _numberSubjects(inventoryCell._numberSubjects)
 {
     if(inventoryCell._ptrSubject != nullptr)
         _ptrSubject = inventoryCell._ptrSubject->clone();
@@ -25,7 +25,7 @@ InventoryCell &InventoryCell::operator=(const InventoryCell &inventoryCell)
         _ptrSubject = nullptr;
         if(inventoryCell._ptrSubject != nullptr)
             _ptrSubject = inventoryCell._ptrSubject->clone();
-        _numberSubject = inventoryCell._numberSubject;
+        _numberSubjects = inventoryCell._numberSubjects;
     }
     return *this;
 }
@@ -37,12 +37,12 @@ const Subject * InventoryCell::subject() const
 
 int InventoryCell::numberSubject() const
 {
-    return _numberSubject;
+    return _numberSubjects;
 }
 
 bool InventoryCell::isEmpty() const
 {
-    return (_numberSubject == 0);
+    return (_numberSubjects == 0);
 }
 
 InventoryCell::STATE InventoryCell::addSubject(const Subject &subject,
@@ -50,14 +50,14 @@ InventoryCell::STATE InventoryCell::addSubject(const Subject &subject,
 {
     if(subject.cmp(_ptrSubject))
     {
-        _numberSubject += subjectCount;
+        _numberSubjects += subjectCount;
         _state = STATE::STRONG_STATE;
     }
     else
     {
         this->clear();
         _ptrSubject = subject.clone();
-        _numberSubject += subjectCount;
+        _numberSubjects += subjectCount;
         _state = STATE::WEAK_STATE;
     }
 
@@ -66,8 +66,8 @@ InventoryCell::STATE InventoryCell::addSubject(const Subject &subject,
 
 InventoryCell::STATE InventoryCell::deleteSubject(const int subjectCount)
 {
-    _numberSubject -= subjectCount;
-    if(_numberSubject <= 0)
+    _numberSubjects -= subjectCount;
+    if(_numberSubjects <= 0)
     {
         this->clear();
         _state = STATE::EMPTY;
@@ -81,7 +81,7 @@ void InventoryCell::clear()
     _state = STATE::EMPTY;
     delete _ptrSubject;
     _ptrSubject = nullptr;
-    _numberSubject = 0;
+    _numberSubjects = 0;
 }
 /*
 QDataStream & operator<<(QDataStream &out,

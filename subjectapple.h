@@ -5,7 +5,7 @@
 
 #include "subject.h"
 
-#define SUBJECT_TYPE "Apple"
+#define SUBJECT_APPLE_TYPE "Apple"
 #define PATH_IMAGE ":/resources/images/image_apple.jpg"
 
 class SubjectApple : public Subject
@@ -13,7 +13,7 @@ class SubjectApple : public Subject
 public:
     static const QString SERIALIZATION_ID;
 
-    SubjectApple(const QString subjectType = SUBJECT_TYPE,
+    SubjectApple(const QString subjectType = SUBJECT_APPLE_TYPE,
                  const QString pathImage = PATH_IMAGE);
 
     SubjectApple(const SubjectApple &subjectApple);
@@ -25,6 +25,8 @@ public:
     bool cmp(const Subject *ptrSubject) const;
 
     Subject * clone() const;
+
+    QVariantList prepareDataForDataBase() const;
 
     ~SubjectApple() {}
 
