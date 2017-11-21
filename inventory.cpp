@@ -21,13 +21,14 @@ size_t Inventory::columns() const
     return _columns;
 }
 
-/*InventoryCell Inventory::inventoryCell(const int row, const int column)
+InventoryCell Inventory::inventoryCell(const int row, const int column) const
 {
-    if(row >= _rows || column >= _columns)
+    if((row >= _rows || row < 0) ||
+            (column >= _columns || column < 0))
         return InventoryCell();
 
     return _mapInventoryCells[row][column];
-}*/
+}
 
 Inventory::~Inventory()
 {}

@@ -33,10 +33,10 @@ public:
      */
     void closeDataBase();
 
+    void saveInventoryToDataBase(const Inventory &inventory);
+
 private:
     QSqlDatabase _dataBase;
-
-    SubjectMapper _subjectMapper;
 
     /*
      * Open database.

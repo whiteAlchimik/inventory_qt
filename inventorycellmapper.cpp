@@ -35,3 +35,36 @@ bool InventoryCellMapper::clearTable()
 
     return ok;
 }
+
+bool InventoryCellMapper::save(const InventoryCell &inventoryCell,
+                               const int row,
+                               const int column)
+{
+    if(inventoryCell.isEmpty())
+    {
+        return false;
+    }
+
+    bool ok = false;
+    QSqlQuery query;
+
+    query.prepare("INSERT INTO " CELL_TABLE " ("
+                  CELL_ROW ", "
+                  CELL_COLUMN ", "
+                  CELL_NUMBER_SUBJECTS ", "
+                  CELL_SUBJECT_TYPE ") VALUES (?, ?, ?, ?)");
+
+    query.addBindValue(row);
+    query.addBindValue(column);
+    query.addBindValue(inventoryCell.numberSubject());
+    query.addBindValue(inventoryCell.subject()->serializationId());
+
+    ok = query.exec();
+
+    if(ok != false)
+    {
+        ok = SubjectMapper::save(*(inventoryCell.subject()));
+    }
+
+    return ok;
+}

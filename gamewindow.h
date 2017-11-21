@@ -9,6 +9,8 @@
 #include "tablewidget.h"
 #include "inventory.h"
 
+#include "database.h"
+
 namespace Ui {
 class GameWindow;
 }
@@ -19,6 +21,9 @@ class GameWindow : public QWidget
 
 public:
     explicit GameWindow(QWidget *parent = 0);
+
+    void saveInventory();
+
     ~GameWindow();
 
 signals:

@@ -7,7 +7,6 @@
 
 #include "inventorycell.h"
 #include "subject.h"
-#include "database.h"
 
 class Inventory : public QObject
 {
@@ -25,7 +24,7 @@ public:
 
     size_t columns() const;
 
-    //InventoryCell inventoryCell(const int row, const int column);
+    InventoryCell inventoryCell(const int row, const int column) const;
 
     ~Inventory();
 

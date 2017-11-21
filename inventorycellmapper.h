@@ -29,6 +29,10 @@ public:
      */
     static bool clearTable();
 
+    static bool save(const InventoryCell &inventoryCell,
+                     const int row,
+                     const int column);
+
 private:
     SubjectMapper _subjectMapper;
 };

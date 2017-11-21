@@ -4,6 +4,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 
+#include "inventory.h"
 #include "inventorycellmapper.h"
 
 #include <QDebug>
@@ -26,6 +27,8 @@ public:
      *                false if this failed for some reason.
      */
     static bool clearTable();
+
+    static bool save(const Inventory &inventory);
 
 private:
     InventoryCellMapper _inventoryCellMapper;

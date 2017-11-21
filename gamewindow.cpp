@@ -53,8 +53,26 @@ GameWindow::GameWindow(QWidget *parent) :
             SLOT(removeItem(int,int)));
 }
 
+void GameWindow::saveInventory()
+{
+    if(_ptrInventory == nullptr)
+    {
+        return;
+    }
+
+    DataBase db;
+
+    db.connectToDataBase();
+
+    db.saveInventoryToDataBase(*(_ptrInventory));
+
+    db.closeDataBase();
+}
+
 GameWindow::~GameWindow()
 {
+    saveInventory();
+
     delete ui;
     delete _ptrSubjectApple;
     delete _ptrInventory;

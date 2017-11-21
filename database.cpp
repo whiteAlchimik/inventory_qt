@@ -31,6 +31,11 @@ void DataBase::closeDataBase()
     _dataBase.close();
 }
 
+void DataBase::saveInventoryToDataBase(const Inventory &inventory)
+{
+    InventoryMapper::save(inventory);
+}
+
 bool DataBase::restoreDataBase()
 {
     bool ok = false;
@@ -68,33 +73,3 @@ bool DataBase::clearTables()
 
     return ok;
 }
-
-/*
-bool DataBase::insertIntoSubjectTable(const QVariantList &data)
-{
-    if(data.isEmpty())
-    {
-        return false;
-    }
-
-    bool ok = false;
-    QSqlQuery query;
-
-    query.prepare("INSERT INTO " SUBJECT_TABLE " (" SUBJECT_TABLE_SERIALIZATION_ID ", "
-                  SUBJECT_TABLE_TYPE ", "
-                  SUBJECT_TABLE_PATH ") "
-                                     "VALUES (?, ?, ?)");
-    query.bindValue(0, data[0].toString());
-    query.bindValue(1, data[1].toString());
-    query.bindValue(2, data[2].toString());
-    ok = query.exec();
-
-    if(ok == false)
-    {
-        qDebug() << "DataBase: error of create " << SUBJECT_TABLE;
-        qDebug() << query.lastError().text();
-    }
-
-    return ok;
-}
-*/

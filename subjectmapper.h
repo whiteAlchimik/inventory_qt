@@ -27,7 +27,7 @@ public:
      */
     static bool clearTable();
 
-    bool save(const Subject &subject);
+    static bool save(const Subject &subject);
 };
 
 #endif // SUBJECTMAPPER_H

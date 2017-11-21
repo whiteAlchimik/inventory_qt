@@ -35,6 +35,18 @@ bool SubjectMapper::clearTable()
 bool SubjectMapper::save(const Subject &subject)
 {
     bool ok = false;
+    QSqlQuery query;
+
+    query.prepare("INSERT INTO " SUBJECT_TABLE " ("
+                  SUBJECT_ID ", "
+                  SUBJECT_TYPE ", "
+                  SUBJECT_PATH ") VALUES (?, ?, ?)");
+
+    query.addBindValue(subject.serializationId());
+    query.addBindValue(subject.subjectType());
+    query.addBindValue(subject.pathImage());
+
+    ok = query.exec();
 
     return ok;
 }
